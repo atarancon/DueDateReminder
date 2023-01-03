@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table>
+    <tr>
+        <th>Billing ID</th>
+        <th>Bill Name </th>
+        <th>Month Recieved</th>
+        <th>Due Date</th>
+        <th> Status </th>
+        <th> Amount </th>
+    </tr>
+    {% for bills in bills %}
+    <tr>
+        <td>{{ bills.id }}</td>
+        <td>{{ bills.bill_name }}</td>
+        <td>{{ bills.month_received }}</td>
+        <td>{{ bills.due_date}}</td>
+        <td>{{ bills.status}}</td>
+        <td>{{ bills.amount}}</td>
+
+
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

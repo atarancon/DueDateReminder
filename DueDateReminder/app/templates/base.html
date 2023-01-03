@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <h1>Flask App: DueDateReminder </h1>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('add_bill') }}">Add Bills</a></li>
+            <li><a href="{{ url_for('show_table') }}">Table</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+      {% endfor %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer>
+      <p>Copyright {{ current_year }}</p>
+    </footer>
+  </body>
+</html>
