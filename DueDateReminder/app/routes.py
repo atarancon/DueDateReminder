@@ -87,6 +87,7 @@ def get_billing_due_dates():
     # check if the table exists
 
 
+
 def is_due_soon(due_date, days_before=5):
     # calculate the date X days before the due date
     threshold_date = due_date - datetime.timedelta(days=days_before)
@@ -95,7 +96,7 @@ def is_due_soon(due_date, days_before=5):
 
 def check_due_dates():
     # create a connection to the database
-    conn = sqlite3.connect('app.db')
+    conn = get_db_connection()
     cursor = conn.cursor()
 
     # fetch the bills from the database
