@@ -10,9 +10,12 @@
         <ul>
           <li><a href="{{ url_for('index') }}">Home</a></li>
           <li><a href="{{ url_for('add_bill') }}">Add Bills</a></li>
-            <li><a href="{{ url_for('show_table') }}">Table</a></li>
+          <li><a href="{{ url_for('show_table') }}">Table</a></li>
+          <li><a href="{{ url_for('due_soon') }}">Due Soon</a></li>
+
         </ul>
       </nav>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
     </header>
     <main>
       {% for message in get_flashed_messages() %}

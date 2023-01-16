@@ -2,6 +2,8 @@ from app import app
 from flask import render_template, request, redirect
 import sqlite3
 import datetime
+from datetime import datetime, timedelta, date
+from flask import url_for
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -11,7 +13,7 @@ def get_db_connection():
 
 @app.route('/')
 def index():
-    return "HELLO"
+    return render_template('base.html')
 
 
 @app.route('/table')
@@ -44,15 +46,22 @@ def update_due_date():
 @app.route('/add_bill', methods=['GET', 'POST'])
 def add_bill():
     if request.method == 'POST':
+        print('posting')
         # get the form data
         bill_name = request.form['bill_name']
+        print(bill_name)
         month_received = request.form['month_received']
         due_date = request.form['due_date']
         status = request.form['status']
         amount = request.form['amount']
 
+        print(bill_name)
+        print(month_received)
+        print(due_date)
+        print(status)
+        print(amount)
         # create a connection to the database
-        conn = sqlite3.connect('app.db')
+        conn =  get_db_connection() #sqlite3.connect('app.db')
         cursor = conn.cursor()
 
         # insert the bill into the database
@@ -68,10 +77,19 @@ def add_bill():
         conn.close()
 
         # redirect to the bills page
-        return redirect(url_for('show_bills'))
+        return redirect(url_for('show_table'))
     else:
-        # render the form template
-        return render_template('add_bill.html')
+        # render the form templat
+        print('viewing')
+        return render_template('addbill.html')
+
+@app.route('/due_soon', methods=['GET', 'POST'])
+def due_soon():
+    # get the bills that are due soon
+    bills_due_soon = check_due_dates()
+
+    # render table page with due dat
+    return render_template('duesoon.html', bills_due_soon=bills_due_soon)
 
 
 def get_billing_due_dates():
@@ -90,9 +108,14 @@ def get_billing_due_dates():
 
 def is_due_soon(due_date, days_before=5):
     # calculate the date X days before the due date
-    threshold_date = due_date - datetime.timedelta(days=days_before)
+    #due_date = datetime.fromisoformat(due_date)
+    due_object = datetime.strptime(due_date, '%Y-%m-%d')
+    # convert the due date to a date object
+    due_object = due_object.date()
+
+    threshold_date = due_object - timedelta(days=days_before)
     # check if the current date is within the threshold
-    return threshold_date <= datetime.date.today() <= due_date
+    return threshold_date <= date.today() <= due_object
 
 def check_due_dates():
     # create a connection to the database
@@ -106,8 +129,15 @@ def check_due_dates():
     # close the connection
     conn.close()
 
+    # create an array to store the bills that are due soon
+    due_soon_bills = []
+
     # check if any bills are due soon
     for bill in bills:
         due_date = bill['due_date']
         if is_due_soon(due_date):
+            # add the bill to the array
+            due_soon_bills.append(bill)
             print(f'Bill "{bill["bill_name"]}" is due soon!')
+    # return the array
+    return due_soon_bills

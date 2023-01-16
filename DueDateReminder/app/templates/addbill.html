@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<form method="POST" action="/add_bill">
+  <label for="bill-name">Bill Name:</label><br>
+  <input type="text" id="bill_name" name="bill_name"><br>
+  <label for="month-received">Month Received:</label><br>
+  <input type="text" id="month_received" name="month_received"><br>
+  <label for="due-date">Due Date:</label><br>
+  <input type="date" id="due_date" name="due_date"><br>
+  <label for="status">Status:</label><br>
+  <input type="text" id="status" name="status"><br>
+  <label for="amount">Amount:</label><br>
+  <input type="number" id="amount" name="amount"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
