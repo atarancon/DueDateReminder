@@ -6,16 +6,19 @@
   <body>
     <header>
       <h1>Flask App: DueDateReminder </h1>
-      <nav>
-        <ul>
-          <li><a href="{{ url_for('index') }}">Home</a></li>
-          <li><a href="{{ url_for('add_bill') }}">Add Bills</a></li>
-          <li><a href="{{ url_for('show_table') }}">Table</a></li>
-          <li><a href="{{ url_for('due_soon') }}">Due Soon</a></li>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
 
-        </ul>
-      </nav>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+      <nav>
+
+        <div id="navbar">
+          <a href="{{ url_for('index') }}">Home</a>
+          <a href="{{ url_for('add_bill') }}">Add Bills</a>
+          <a href="{{ url_for('show_table') }}">Tables</a>
+          <a href="{{ url_for('due_soon') }}">Due Soon</a>
+        </div>
+     </nav>
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/table.css') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}">
     </header>
     <main>
       {% for message in get_flashed_messages() %}
